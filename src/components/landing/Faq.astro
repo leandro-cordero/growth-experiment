@@ -1,0 +1,36 @@
+---
+import CaretDown from "@phosphor-icons/core/regular/caret-down.svg";
+
+const items = [
+  { q: "Do I need a credit card?", a: "No. The free plan doesn't ask for card details." },
+  {
+    q: "Is this trading advice?",
+    a: "No. TradingFX is a practice tool. Simulated trades are hypothetical and don't show how you would do with real money.",
+  },
+  {
+    q: "Is this sign-up real?",
+    a: "No. This page is a demo. It saves your email to a test database, and no real TradingFX account is created.",
+  },
+];
+---
+
+<section aria-labelledby="faq-title" class="mx-auto max-w-(--width-page) px-(--space-gutter) py-(--space-section)">
+  <div class="mx-auto flex max-w-(--width-prose) flex-col gap-8">
+    <h2 id="faq-title">Questions before you start</h2>
+    <div class="faq">
+      {
+        items.map((item) => (
+          <details class="faq__item">
+            <summary class="faq__summary">
+              {item.q}
+              <CaretDown class="faq__icon" aria-hidden="true" />
+            </summary>
+            <div class="faq__answer-wrap">
+              <p class="faq__answer">{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

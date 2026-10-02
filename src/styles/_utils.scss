@@ -1,0 +1,42 @@
+// Use: @use '@/styles/utils' as u;
+@use 'sass:map';
+
+// Mobile-first, min-width only. Keep in sync with --breakpoint-* in global.css.
+
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+@mixin from($name) {
+  $value: map.get($breakpoints, $name);
+
+  @if $value == null {
+    @error "Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}.";
+  }
+
+  @media (min-width: $value) {
+    @content;
+  }
+}
+
+// Tailwind spacing step: u.space(4) === p-4
+@function space($n) {
+  @return calc(var(--spacing) * #{$n});
+}
+
+// Grow the hit area to --target-min without changing the visual box
+@mixin tap-target {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: max(100%, var(--target-min));
+    height: max(100%, var(--target-min));
+    transform: translate(-50%, -50%);
+  }
+}

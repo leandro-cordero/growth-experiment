@@ -1,0 +1,250 @@
+:root {
+  /* ===== TIER 1 — PRIMITIVES. tokens.css only. ===== */
+
+  /* Brand */
+  --brand-electric-blue: #0260fd;
+  --brand-black: #000000;
+  --brand-accent: #2a2a2a;
+
+  /* Neutral */
+  --neutral-950: #000000;
+  --neutral-900: #3d3d3d;
+  --neutral-800: #454545;
+  --neutral-700: #4f4f4f;
+  --neutral-600: #5d5d5d;
+  --neutral-500: #6d6d6d;
+  --neutral-400: #888888;
+  --neutral-300: #b0b0b0;
+  --neutral-200: #d1d1d1;
+  --neutral-100: #e7e7e7;
+  --neutral-50: #f6f6f6;
+
+  /* Blue */
+  --blue-950: #01153a;
+  /* OURS — kit's SEM references it but PRIM omits it. See docs/decisions.md */
+  --blue-900: #012054;
+  --blue-800: #01307f;
+  --blue-700: #0250d3;
+  --blue-600: #0260fd;
+  --blue-500: #2c7bfd;
+  --blue-400: #5695fe;
+  --blue-300: #80affe;
+  --blue-200: #abcafe;
+  --blue-100: #ccdfff;
+  --blue-50: #eaf2ff;
+
+  /* Dark */
+  --dark-950: #000000;
+  --dark-900: #030303;
+  --dark-800: #0a0a0a;
+  --dark-700: #1a1a1a;
+  --dark-600: #2a2a2a;
+  --dark-500: #3a3a3a;
+  --dark-400: #4a4a4a;
+  --dark-300: #5a5a5a;
+  --dark-200: #6a6a6a;
+  --dark-100: #7a7a7a;
+  --dark-50: #8a8a8a;
+
+  /* System */
+  --success: #53b483;
+  --success-light: #d9f9e6;
+  --success-dark: #2f7a5c;
+  --error: #cd3636;
+  --error-light: #f8d7da;
+  --error-dark: #912626;
+  --warning: #cd8a36;
+  --warning-light: #fff3cd;
+  --warning-dark: #8a5a1f;
+
+  /* ===== TIER 2 — SEMANTIC. Build with these. ===== */
+
+  /* Background */
+  --bg-primary: var(--dark-900);
+  --bg-secondary: var(--dark-800);
+  --bg-tertiary: var(--dark-700);
+  --alternate: var(--neutral-50);
+  --bg-alternate: var(--alternate);
+  /* OURS — readable alias */
+  --bg-card: var(--dark-900);
+  --bg-success: var(--success);
+  --bg-error: var(--error);
+  --bg-warning: var(--warning);
+
+  /* Border */
+  --border-primary: var(--dark-700);
+  --border-secondary: var(--dark-600);
+  --border-tertiary: var(--dark-500);
+  --border-success: var(--success-dark);
+  --border-error: var(--error-dark);
+  --border-warning: var(--warning-dark);
+  --border-brand: var(--blue-600);
+
+  /* Text */
+  --text-primary: var(--neutral-50);
+  --text-secondary: var(--neutral-200);
+  --text-disabled: var(--neutral-400);
+  --text-brand: var(--blue-600);
+  /* 4.02:1 — large text only */
+  --text-error: var(--error-light);
+  --text-warning: var(--warning-light);
+  --text-success: var(--success-light);
+  --text-brand-strong: var(--blue-400);
+  /* OURS — 7.00:1, brand text at body size */
+
+  /* Button. Kit `-active` = at rest; `-pressed` = CSS :active. */
+  --btn-bg-primary-active: var(--blue-600);
+  --btn-bg-primary-hover: var(--blue-800);
+  --btn-bg-primary-pressed: var(--blue-900);
+  --btn-bg-primary-disabled: var(--blue-950);
+  /* pair with --btn-border-outline */
+  --btn-bg-secondary-active: var(--dark-700);
+  --btn-bg-secondary-hover: var(--dark-600);
+  --btn-bg-secondary-pressed: var(--dark-800);
+  --btn-bg-secondary-disabled: var(--dark-500);
+  --btn-bg-outline-active: var(--dark-900);
+  --btn-bg-outline-hover: var(--dark-600);
+  --btn-bg-outline-pressed: var(--dark-700);
+  --btn-bg-outline-disabled: var(--dark-800);
+  --btn-border-outline: var(--dark-200);
+  --btn-bg-minimal: var(--dark-900);
+  --btn-text-minimal-hover: var(--blue-500);
+  --btn-text-minimal-pressed: var(--blue-500);
+  --btn-text: var(--neutral-50);
+  --btn-text-disabled: var(--dark-100);
+
+  /* Icon */
+  --icon-primary: var(--neutral-50);
+  --icon-secondary: var(--neutral-200);
+  --icon-error: var(--error-light);
+  --icon-warning: var(--warning-light);
+  --icon-success: var(--success-light);
+
+  /* Banner */
+  --banner-bg-error: var(--error);
+  --banner-bg-warning: var(--warning);
+  --banner-bg-success: var(--success);
+  --banner-bg-info: var(--dark-800);
+  --banner-bg-secondary: var(--dark-700);
+  --banner-color-icon: var(--neutral-50);
+  --banner-color-headline: var(--neutral-50);
+  --banner-color-paragraph: var(--neutral-50);
+  --banner-color-on-fill: var(--dark-900);
+  /* OURS — ink for warning/success fills */
+
+  /* Card */
+  --card-bg-primary: var(--dark-900);
+  --card-bg-secondary: var(--dark-700);
+  --card-bg-translucent: color-mix(in srgb, var(--dark-900) 60%, transparent);
+  --card-text-primary: var(--neutral-50);
+  --card-text-secondary: var(--neutral-200);
+  --card-bg-primary-hover: var(--dark-700);
+  --card-bg-secondary-hover: var(--dark-600);
+
+  /* Chart (OURS) — monochrome candles; blue marks the replay cursor only */
+  --chart-candle-up: var(--neutral-50);
+  --chart-candle-down: var(--neutral-400);
+  --chart-cursor: var(--blue-600);
+  /* non-text only */
+  --chart-grid: var(--dark-700);
+  /* decorative */
+  --chart-future: var(--dark-800);
+  /* not-yet-replayed area */
+  --bg-brand-wash: color-mix(in srgb, var(--blue-600) 14%, transparent);
+  /* decorative */
+
+  /* Depth (OURS) — see docs/decisions.md */
+  --bg-elevated: var(--dark-800);
+  /* card surface above --bg-primary */
+  --bg-page-glow: radial-gradient(closest-side,
+      color-mix(in srgb, var(--blue-600) 10%, transparent),
+      transparent);
+  --bg-grid-line: color-mix(in srgb, var(--dark-500) 45%, transparent);
+  /* decorative, non-text */
+  --gradient-hairline: linear-gradient(90deg, transparent, var(--border-brand), transparent);
+  --gradient-ink-accent: linear-gradient(100deg, var(--neutral-50), var(--blue-300));
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -16px rgb(0 0 0 / 0.8);
+  --shadow-brand-glow:
+    0 0 0 1px color-mix(in srgb, var(--blue-400) 40%, transparent),
+    0 8px 28px -8px color-mix(in srgb, var(--blue-600) 55%, transparent);
+
+  /* Focus (OURS) — blue-500 clears 3:1 on every ground */
+  --focus-ring: var(--blue-500);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* ===== TIER 3 — SYSTEM SCALES. Ours. ===== */
+
+  /* Families — --font-lato / --font-nunito-sans come from the Astro Fonts API */
+  --font-display: var(--font-lato, 'Helvetica Neue', Arial, sans-serif);
+  --font-body: var(--font-nunito-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+
+  /* Type scale */
+  --text-display: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  /* 36 -> 60px */
+  --text-h2: clamp(1.75rem, 1.35rem + 1.65vw, 2.5rem);
+  /* 28 -> 40px */
+  --text-h3: 1.5rem;
+  /* 24px — WCAG large-text threshold, do not lower */
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+  /* legal only, never interactive */
+
+  --tracking-tight: -0.02em;
+  /* kit heading tracking; overrides Tailwind's tracking-tight */
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.6;
+
+  --weight-regular: 400;
+  /* Nunito Sans */
+  --weight-semibold: 600;
+  /* Nunito Sans */
+  --weight-bold: 700;
+  --weight-black: 900;
+  /* Lato */
+
+  /* Page rhythm only. Component spacing uses Tailwind's --spacing. */
+  --space-section: clamp(3rem, 2rem + 4vw, 5.5rem);
+  --space-gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+  --width-page: 75rem;
+  /* not --container-*: Tailwind owns that namespace */
+  --width-prose: 42rem;
+  --height-header: 4rem;
+  --height-action-bar: calc(var(--target-min) + var(--spacing) * 6);
+
+  /* Radii */
+  --radius-sm: 0.375rem;
+  /* inputs, tags */
+  --radius-md: 0.625rem;
+  /* buttons */
+  --radius-lg: 1rem;
+  /* cards, modal */
+  --radius-full: 9999px;
+
+  /* Elevation — depth is surface + border; shadow for the modal only */
+  --overlay-scrim: color-mix(in srgb, var(--dark-950) 70%, transparent);
+  --shadow-overlay: 0 24px 48px -12px rgb(0 0 0 / 0.75);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 400ms;
+  --duration-replay: 9s;
+  /* hero chart reveal loop */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-index — never write a raw z-index */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-overlay: 800;
+  --z-modal: 900;
+  --z-toast: 1000;
+  --z-skip-link: 1100;
+
+  --target-min: 44px;
+}

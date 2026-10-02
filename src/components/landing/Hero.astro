@@ -1,0 +1,36 @@
+---
+import ChartLine from "@phosphor-icons/core/regular/chart-line.svg";
+import { OFFER_LINE } from "../../lib/cta";
+import CtaLink from "./CtaLink.astro";
+import HeroChart from "./HeroChart.astro";
+---
+
+<section
+  aria-labelledby="hero-title"
+  class="mx-auto grid max-w-(--width-page) gap-12 px-(--space-gutter) pt-8 pb-(--space-section) md:pt-16 lg:grid-cols-12 lg:items-center lg:gap-10 lg:pt-20"
+>
+  <div class="flex flex-col gap-6 lg:col-span-6">
+    <p class="eyebrow">
+      <ChartLine class="eyebrow__icon" aria-hidden="true" />
+      Backtesting and replay for traders
+    </p>
+    <h1 id="hero-title">
+      Backtest before <span class="headline-accent">you risk real money</span>
+    </h1>
+    <p class="text-(length:--text-body-lg) text-ink-muted">
+      TradingFX plays back historical charts bar by bar. Place simulated trades
+      as the chart unfolds, then review every decision.
+    </p>
+    <div class="cta-group">
+      <CtaLink position="hero" id="hero_primary" />
+      <p class="cta-offer">{OFFER_LINE}</p>
+      {
+        /* Counter variant only: the counter route fills this slot; control leaves it empty. */
+      }
+      <slot name="proof" />
+    </div>
+  </div>
+  <div class="lg:col-span-6">
+    <HeroChart />
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  /** Clear the mobile sticky CTA bar (landing only). */
+  stickyGap?: boolean;
+}
+
+const { stickyGap = false } = Astro.props;
+---
+
+<footer class:list={["border-t border-line", { "pb-(--height-action-bar) md:pb-0": stickyGap }]}>
+  <div class="mx-auto flex max-w-(--width-page) flex-col gap-4 px-(--space-gutter) py-10 text-(length:--text-xs) text-ink-muted">
+    <div class="legal">
+      <p class="legal__body">
+        TradingFX is a practice and backtesting tool, not investment advice. Simulated and backtested results are
+        hypothetical and do not reflect real trading.
+      </p>
+    </div>
+    <p>Demo: sign-in is simulated and the signup counter is illustrative.</p>
+  </div>
+</footer>

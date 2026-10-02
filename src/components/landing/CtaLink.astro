@@ -1,0 +1,25 @@
+---
+import ArrowRight from "@phosphor-icons/core/regular/arrow-right.svg";
+import { CTA_LABEL } from "../../lib/cta";
+
+interface Props {
+  /** Where on the page: becomes `?entry=` and `cta_position`. */
+  position: string;
+  /** Stable id for `cta_id`. */
+  id: string;
+  /** Full-width, for the mobile sticky bar. */
+  block?: boolean;
+}
+
+const { position, id, block = false } = Astro.props;
+---
+
+<a
+  class:list={["cta", { "cta--block": block }]}
+  href={`/signup?entry=${position}`}
+  data-cta-id={id}
+  data-cta-position={position}
+>
+  {CTA_LABEL}
+  <ArrowRight class="cta__icon" aria-hidden="true" />
+</a>

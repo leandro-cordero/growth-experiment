@@ -1,0 +1,16 @@
+---
+import { OFFER_LINE } from "../../lib/cta";
+import CtaLink from "./CtaLink.astro";
+---
+
+<section aria-labelledby="final-title" class="final-cta" data-final-cta>
+  <div
+    class="mx-auto flex max-w-(--width-page) flex-col items-center gap-6 px-(--space-gutter) py-(--space-section) text-center"
+  >
+    <h2 id="final-title">Practise on past markets for free</h2>
+    <div class="cta-group cta-group--center">
+      <CtaLink position="final" id="final_primary" />
+      <p class="cta-offer">{OFFER_LINE}</p>
+    </div>
+  </div>
+</section>

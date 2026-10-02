@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Always emit --spacing so components.scss can use u.space() */
+@theme static {
+  --spacing: 0.25rem;
+}
+
+@theme inline {
+  /* Surfaces */
+  --color-surface: var(--bg-primary);
+  --color-surface-2: var(--bg-secondary);
+  --color-surface-3: var(--bg-tertiary);
+  --color-surface-alt: var(--bg-alternate);
+  --color-card: var(--card-bg-primary);
+  --color-card-2: var(--card-bg-secondary);
+
+  /* Foreground */
+  --color-ink: var(--text-primary);
+  --color-ink-muted: var(--text-secondary);
+  --color-ink-disabled: var(--text-disabled);
+  --color-ink-brand: var(--text-brand);
+  /* large text only */
+  --color-ink-brand-strong: var(--text-brand-strong);
+  --color-ink-error: var(--text-error);
+  --color-ink-warning: var(--text-warning);
+  --color-ink-success: var(--text-success);
+  --color-on-brand: var(--btn-text);
+  --color-on-fill: var(--banner-color-on-fill);
+
+  /* Lines */
+  --color-line: var(--border-primary);
+  --color-line-2: var(--border-secondary);
+  --color-line-3: var(--border-tertiary);
+  --color-line-brand: var(--border-brand);
+  --color-line-error: var(--border-error);
+  --color-line-success: var(--border-success);
+  --color-line-warning: var(--border-warning);
+  --color-line-control: var(--btn-border-outline);
+
+  /* Brand fills */
+  --color-brand: var(--btn-bg-primary-active);
+  --color-brand-hover: var(--btn-bg-primary-hover);
+  --color-brand-pressed: var(--btn-bg-primary-pressed);
+  --color-brand-disabled: var(--btn-bg-primary-disabled);
+
+  /* Status fills */
+  --color-fill-error: var(--bg-error);
+  --color-fill-warning: var(--bg-warning);
+  --color-fill-success: var(--bg-success);
+
+  --color-focus: var(--focus-ring);
+
+  /* `heading`, not `display`: avoids a circular --font-display */
+  --font-heading: var(--font-display);
+  --font-sans: var(--font-body);
+
+  /* Keep in sync with $breakpoints in _utils.scss */
+  --breakpoint-sm: 30rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    font-optical-sizing: auto;
+    -webkit-text-size-adjust: 100%;
+    /* Keep focused/anchored content clear of sticky UI (WCAG 2.4.11) */
+    scroll-padding-bottom: var(--height-action-bar);
+  }
+
+  @media (min-width: 48rem) {
+    html {
+      scroll-padding-top: var(--height-header);
+      scroll-padding-bottom: 0;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    text-rendering: optimizeLegibility;
+    /* Decorative bleeds (the hero wash) must not scroll the page sideways.
+           `clip`, not `hidden`: it keeps the sticky header working. */
+    overflow-x: clip;
+  }
+
+  /* Type scale lives on elements. Change size with a class, never the heading level. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    margin-block: 0;
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+    font-weight: var(--weight-black);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-snug);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h3,
+  h4 {
+    font-size: var(--text-h3);
+    line-height: var(--leading-snug);
+    font-weight: var(--weight-bold);
+  }
+
+  p {
+    text-wrap: pretty;
+    max-width: var(--width-prose);
+  }
+
+  /* CLS: pair with width/height attributes */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* A11y floor — do not remove */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

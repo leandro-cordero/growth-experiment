@@ -1,0 +1,43 @@
+---
+// The whole signup page, shared by both variant routes. The counter renders inside the island
+// only when variant === "counter", so control HTML has no counter DOM.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteFooter from "../landing/SiteFooter.astro";
+import SignupForm from "./SignupForm";
+
+interface Props {
+  variant: "control" | "counter";
+}
+
+const { variant } = Astro.props;
+---
+
+<BaseLayout
+  title="Create your free TradingFX account"
+  description="Create a free TradingFX account with your email. Free plan, no credit card. Demo sign-up."
+  experiments={{ funnel_proof_v1: variant }}
+  canonicalPath="/signup"
+  noindex={variant !== "control"}
+>
+  <header class="border-b border-line">
+    <div class="mx-auto flex min-h-(--height-header) max-w-(--width-page) items-center px-(--space-gutter)">
+      <a class="signup__home" href="/">
+        <img class="signup__logo" src="/logos/logo.svg" alt="TradingFX home" width="1000" height="209" />
+      </a>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1" class="px-(--space-gutter) py-10 md:py-16">
+    <div class="mx-auto flex w-full max-w-md flex-col gap-6">
+      <div class="flex flex-col gap-3">
+        <h1 class="signup__title">Create your free account</h1>
+        <p class="signup__lead">Practise your setups on past markets without risking real money.</p>
+        <p class="signup__fineprint">
+          Demo: this sign-up saves your email to a test database. No real TradingFX account is created.
+        </p>
+      </div>
+      <SignupForm client:load variant={variant} />
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+// Counter landing, served at `/` by the edge middleware. Only this route imports ProofCounter.
+import LandingPage from "../../../components/landing/LandingPage.astro";
+import ProofCounter from "../../../components/ProofCounter.astro";
+---
+
+<LandingPage variant="counter">
+  <ProofCounter slot="proof" />
+</LandingPage>

@@ -1,0 +1,61 @@
+---
+import { Font } from "astro:assets";
+import { VERCEL_ENV } from "astro:env/server";
+import "../styles/global.css";
+import "../styles/components.scss";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Variant this HTML was built for, e.g. { funnel_proof_v1: "counter" }. Rendered on <html>. */
+  experiments?: Record<string, string>;
+  /** Public path this page canonically lives at. Per-variant copies point to the public path. */
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const { title, description, experiments = {}, canonicalPath, noindex = false } = Astro.props;
+const path = canonicalPath ?? Astro.url.pathname;
+const canonical = Astro.site ? new URL(path, Astro.site).href : canonicalPath;
+
+// Runs at build: tells the browser which environment produced the page.
+const appEnv = VERCEL_ENV ?? "development";
+
+// The variant is fixed at build time: the edge middleware serves each visitor the copy built for
+// their variant, and `readSuperProps` / `readAssignments` read it back from the <html> attributes,
+// so `$feature/<key>` always equals the HTML that was actually served.
+---
+
+<html lang="en" data-app-env={appEnv} {...experiments}>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/logos/isotypeWhite.svg" />
+    <Font
+      cssVariable="--font-lato"
+      preload={[{ weight: "900", style: "normal", subset: "latin" }]}
+    />
+    <Font cssVariable="--font-nunito-sans" />
+  </head>
+  <body class="bg-surface text-ink font-sans">
+    <div class="page-backdrop" aria-hidden="true"></div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+    <script>
+      import { PUBLIC_POSTHOG_HOST, PUBLIC_POSTHOG_KEY } from "astro:env/client";
+      import { initAnalytics } from "../lib/analytics/client";
+
+      initAnalytics({ key: PUBLIC_POSTHOG_KEY, host: PUBLIC_POSTHOG_HOST });
+    </script>
+  </body>
+</html>

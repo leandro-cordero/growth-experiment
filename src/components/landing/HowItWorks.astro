@@ -1,0 +1,26 @@
+---
+const steps = [
+  { title: "Pick a market and a start date.", text: "Load a past session to practise on." },
+  { title: "Replay it bar by bar.", text: "Place simulated trades as each candle prints, without seeing what comes next." },
+  { title: "Review your decisions.", text: "Look back at each entry and exit, then replay the session to practise again." },
+];
+---
+
+<section aria-labelledby="how-title" class="mx-auto max-w-(--width-page) px-(--space-gutter) py-(--space-section)">
+  <div class="grid gap-10 lg:grid-cols-12 lg:gap-10">
+    <h2 id="how-title" class="lg:col-span-5">How replay practice works</h2>
+    <ol class="step-list">
+      {
+        steps.map((step, i) => (
+          <li class="step-card">
+            <span class="step-card__number" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3>{step.title}</h3>
+            <p class="step-card__body">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

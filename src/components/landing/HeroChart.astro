@@ -1,0 +1,75 @@
+---
+import { generateBars, layoutCandles, priceRange, priceToY } from '../../lib/replay-bars';
+
+const VIEW_W = 640;
+const VIEW_H = 340;
+const SLOTS = 64; // full session; bars after the cursor are "not yet replayed"
+const REPLAYED = 44;
+
+const box = { left: 12, top: 16, width: VIEW_W - 96, height: VIEW_H - 32, slots: SLOTS };
+const bars = generateBars(REPLAYED);
+const candles = layoutCandles(bars, box);
+const { min, max } = priceRange(bars);
+
+const slot = box.width / SLOTS;
+const cursorX = box.left + slot * REPLAYED;
+const ticks = [0.15, 0.5, 0.85].map((t) => {
+  const price = Math.round((max - (max - min) * t) / 50) * 50;
+  return { price, y: priceToY(price, min, max, box) };
+});
+const fmt = new Intl.NumberFormat('en-US');
+---
+
+<figure class="hero-chart">
+  <div class="hero-chart__frame">
+    <div class="hero-chart__bar" aria-hidden="true">
+      <span class="hero-chart__symbol">BTC-USD</span>
+      <span class="hero-chart__meta">1H · Replay</span>
+    </div>
+    <svg
+      class="hero-chart__svg"
+      viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+      width={VIEW_W}
+      height={VIEW_H}
+      role="img"
+      aria-labelledby="hero-chart-title hero-chart-desc"
+      style={`--replay-end: ${cursorX}px; --replay-steps: ${REPLAYED}`}
+    >
+      <title id="hero-chart-title">Sample BTC-USD candlestick chart in replay</title>
+      <desc id="hero-chart-desc">
+        Synthetic, illustrative price bars revealed up to a replay cursor. The rest of the session is not yet
+        shown.
+      </desc>
+      <defs>
+        {/* Reveal window: animates 0 -> the replayed width, one bar at a time */}
+        <clipPath id="hero-chart-reveal">
+          <rect class="hero-chart__reveal" x="0" y="0" width={cursorX} height={VIEW_H} />
+        </clipPath>
+      </defs>
+      <rect class="hero-chart__future" x="0" y="0" width={box.left + box.width} height={VIEW_H} />
+      <g clip-path="url(#hero-chart-reveal)">
+        <rect class="hero-chart__past" x="0" y="0" width={box.left + box.width} height={VIEW_H} />
+      </g>
+      {ticks.map((t) => <line class="hero-chart__grid" x1={box.left} x2={box.left + box.width} y1={t.y} y2={t.y} />)}
+      <g clip-path="url(#hero-chart-reveal)">
+        {
+          candles.map((c) => (
+            <g class:list={['hero-chart__candle', c.up ? 'hero-chart__candle--up' : 'hero-chart__candle--down']}>
+              <line class="hero-chart__wick" x1={c.x} x2={c.x} y1={c.wickTop} y2={c.wickBottom} />
+              <rect class="hero-chart__body" x={c.x - c.width / 2} y={c.bodyTop} width={c.width} height={c.bodyHeight} />
+            </g>
+          ))
+        }
+      </g>
+      <line class="hero-chart__cursor" x1="0" x2="0" y1="0" y2={VIEW_H} />
+      {
+        ticks.map((t) => (
+          <text class="hero-chart__price" x={VIEW_W - 8} y={t.y + 4} text-anchor="end">
+            {fmt.format(t.price)}
+          </text>
+        ))
+      }
+    </svg>
+  </div>
+  <figcaption class="hero-chart__caption">Sample BTC-USD chart. Synthetic, hypothetical / illustrative data.</figcaption>
+</figure>

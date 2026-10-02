@@ -1,0 +1,36 @@
+name: JS budget
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: js-budget-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  js-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm astro build
+
+      # CLAUDE.md §6: landing ships ≤ 20KB gz first-party JS.
+      - name: Landing JS budget
+        run: |
+          html=$(find .vercel/output/static dist -name index.html -maxdepth 2 2>/dev/null | head -n1)
+          root=$(dirname "$html")
+          total=0
+          for src in $(grep -oE 'src="/_astro/[^"]+\.js"' "$html" | sed -E 's/src="\/(.*)"/\1/'); do
+            size=$(gzip -c "$root/$src" | wc -c)
+            echo "$src: $size B gz"
+            total=$((total + size))
+          done
+          echo "Landing JS total: $total B gz (budget 20480)"
+          [ "$total" -le 20480 ]

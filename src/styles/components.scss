@@ -1,0 +1,1018 @@
+// Custom component classes (BEM). Never combined with Tailwind utilities on one element.
+@use './utils' as u;
+
+@layer components {
+
+  /* ===== skip-link ===== */
+  .skip-link {
+    position: fixed;
+    top: u.space(2);
+    left: u.space(2);
+    z-index: var(--z-skip-link);
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-min);
+    padding-inline: u.space(4);
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transform: translateY(calc(-100% - #{u.space(4)}));
+
+    &:focus-visible {
+      transform: none;
+    }
+  }
+
+  /* ===== page-backdrop =====
+     Decorative depth layer: brand halo behind the hero + a grid that fades out. */
+  .page-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      var(--bg-page-glow) 50% 0 / 120vw 70vh no-repeat,
+      repeating-linear-gradient(90deg, var(--bg-grid-line) 0 1px, transparent 1px 72px),
+      repeating-linear-gradient(0deg, var(--bg-grid-line) 0 1px, transparent 1px 72px);
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 60%);
+  }
+
+  /* ===== eyebrow ===== */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: u.space(2);
+    align-self: flex-start;
+    max-width: none;
+    margin: 0;
+    padding-block: u.space(1);
+    padding-inline: u.space(3);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .eyebrow__icon {
+    width: u.space(4);
+    height: u.space(4);
+    flex: none;
+    color: var(--icon-secondary);
+  }
+
+  /* ===== headline-accent =====
+     Base colour is the fallback; the gradient only applies where clipping works. */
+  .headline-accent {
+    color: var(--text-primary);
+
+    @supports (-webkit-background-clip: text) {
+      background: var(--gradient-ink-accent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /* ===== site-header ===== */
+  .site-header {
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+
+    @include u.from(md) {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: u.space(4);
+    max-width: var(--width-page);
+    min-block-size: var(--height-header);
+    margin-inline: auto;
+    padding-inline: var(--space-gutter);
+  }
+
+  .site-header__logo {
+    display: block;
+    width: auto;
+    height: u.space(5);
+  }
+
+  .site-header__cta {
+    display: none;
+
+    @include u.from(md) {
+      display: block;
+    }
+  }
+
+  /* ===== cta =====
+     Navigation link: no disabled/loading state (see docs/decisions.md). */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: u.space(2);
+    min-block-size: var(--target-min);
+    min-inline-size: var(--target-min);
+    padding-block: u.space(3);
+    padding-inline: u.space(6);
+    border-radius: var(--radius-md);
+    background: var(--btn-bg-primary-active);
+    color: var(--btn-text);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background: var(--btn-bg-primary-hover);
+      box-shadow: var(--shadow-brand-glow);
+    }
+
+    // Additive only — the global :focus-visible outline still draws
+    &:focus-visible {
+      box-shadow: var(--shadow-brand-glow);
+    }
+
+    &:active {
+      background: var(--btn-bg-primary-pressed);
+      transform: translateY(1px);
+    }
+  }
+
+  .cta--block {
+    display: flex;
+    width: 100%;
+  }
+
+  .cta__icon {
+    width: u.space(5);
+    height: u.space(5);
+    flex: none;
+    transition: transform var(--duration-fast) var(--ease-out);
+
+    .cta:hover & {
+      transform: translateX(2px);
+    }
+  }
+
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: u.space(3);
+  }
+
+  .cta-group--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .cta-offer {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  /* ===== inline-link ===== */
+  .inline-link {
+    @include u.tap-target;
+    color: var(--text-brand-strong);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &:active {
+      color: var(--text-primary);
+    }
+  }
+
+  /* ===== step-card ===== */
+  .step-list {
+    display: grid;
+    gap: u.space(4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include u.from(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @include u.from(lg) {
+      grid-column: span 7;
+    }
+  }
+
+  .step-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: u.space(2);
+    overflow: hidden;
+    padding: u.space(6);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow-card);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: var(--gradient-hairline);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: var(--border-secondary);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .step-card__number {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-black);
+    line-height: var(--leading-tight);
+    color: var(--text-disabled);
+    opacity: 0.6;
+  }
+
+  .step-card__body {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  /* ===== final-cta ===== */
+  .final-cta {
+    position: relative;
+    isolation: isolate;
+    border-top: 1px solid var(--border-primary);
+    background: var(--bg-secondary);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px 0 auto 0;
+      height: 1px;
+      background: var(--gradient-hairline);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--bg-page-glow) 50% 100% / 90% 140% no-repeat;
+      pointer-events: none;
+    }
+  }
+
+  /* ===== hero-chart ===== */
+  .hero-chart {
+    position: relative;
+    isolation: isolate;
+    margin: 0;
+
+    // Decorative brand wash behind the frame (kit logo-stage gradient)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -12% -8%;
+      z-index: -1;
+      background: radial-gradient(closest-side, var(--bg-brand-wash), transparent);
+      pointer-events: none;
+    }
+  }
+
+  .hero-chart__frame {
+    overflow: hidden;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+
+  .hero-chart__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: u.space(3);
+    padding-block: u.space(3);
+    padding-inline: u.space(4);
+    border-bottom: 1px solid var(--border-primary);
+    font-size: var(--text-sm);
+  }
+
+  .hero-chart__symbol {
+    color: var(--text-primary);
+    font-weight: var(--weight-bold);
+  }
+
+  .hero-chart__meta {
+    color: var(--text-secondary);
+  }
+
+  .hero-chart__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-chart__grid {
+    stroke: var(--chart-grid);
+    stroke-width: 1;
+  }
+
+  .hero-chart__future {
+    fill: var(--chart-future);
+  }
+
+  // Painted inside the reveal clip, so the "replayed" ground tracks the cursor for free
+  .hero-chart__past {
+    fill: var(--bg-secondary);
+  }
+
+  /* Replay loop: the clip window steps out one bar at a time, the cursor rides its edge */
+  .hero-chart__reveal {
+    animation: hero-chart-reveal var(--duration-replay) steps(var(--replay-steps)) infinite;
+  }
+
+  .hero-chart__cursor {
+    animation: hero-chart-cursor var(--duration-replay) steps(var(--replay-steps)) infinite;
+    filter: drop-shadow(0 0 3px var(--chart-cursor));
+  }
+
+  @keyframes hero-chart-reveal {
+    from {
+      width: 0;
+    }
+  }
+
+  @keyframes hero-chart-cursor {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(var(--replay-end));
+    }
+  }
+
+  // Pin to the completed frame rather than relying on the global duration override
+  @media (prefers-reduced-motion: reduce) {
+
+    .hero-chart__reveal,
+    .hero-chart__cursor {
+      animation: none;
+    }
+
+    .hero-chart__cursor {
+      transform: translateX(var(--replay-end));
+    }
+  }
+
+  .hero-chart__wick {
+    stroke-width: 1;
+  }
+
+  .hero-chart__candle--up {
+    .hero-chart__wick {
+      stroke: var(--chart-candle-up);
+    }
+
+    .hero-chart__body {
+      fill: var(--bg-secondary);
+      stroke: var(--chart-candle-up);
+      stroke-width: 1;
+    }
+  }
+
+  .hero-chart__candle--down {
+    .hero-chart__wick {
+      stroke: var(--chart-candle-down);
+    }
+
+    .hero-chart__body {
+      fill: var(--chart-candle-down);
+    }
+  }
+
+  .hero-chart__cursor {
+    stroke: var(--chart-cursor);
+    stroke-width: 2;
+  }
+
+  .hero-chart__price {
+    fill: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 15px; // SVG user units: ~9px at 390, 15px at full width
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero-chart__caption {
+    margin-top: u.space(3);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  /* ===== faq ===== */
+  .faq {
+    border-top: 1px solid var(--border-primary);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--border-primary);
+    border-left: 2px solid transparent;
+    border-radius: var(--radius-md);
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      border-left-color var(--duration-base) var(--ease-out);
+
+    // Open state also carries the caret rotation and the answer itself
+    &[open] {
+      border-left-color: var(--border-brand);
+      background: var(--bg-secondary);
+    }
+  }
+
+  // <details> hides its content outright when closed, so a height transition never
+  // runs. Animate the reveal instead: it plays the moment the content is displayed.
+  .faq__item[open] .faq__answer-wrap {
+    animation: faq-reveal var(--duration-base) var(--ease-out);
+  }
+
+  @keyframes faq-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(calc(u.space(1) * -1));
+    }
+  }
+
+  .faq__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: u.space(4);
+    min-block-size: var(--target-min);
+    padding-block: u.space(4);
+    padding-inline: u.space(3);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: var(--weight-bold);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      background: var(--card-bg-primary-hover);
+    }
+
+    &:active {
+      background: var(--bg-secondary);
+    }
+  }
+
+  .faq__icon {
+    width: u.space(5);
+    height: u.space(5);
+    flex: none;
+    color: var(--icon-secondary);
+    transition: transform var(--duration-base) var(--ease-standard);
+
+    .faq__item[open] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  .faq__answer {
+    margin: 0;
+    padding-inline: u.space(3);
+    padding-bottom: u.space(5);
+    color: var(--text-secondary);
+  }
+
+  /* ===== sticky-cta (below md only) ===== */
+  .sticky-cta {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: var(--z-sticky);
+    padding-block: u.space(3);
+    padding-inline: var(--space-gutter);
+    padding-bottom: calc(#{u.space(3)} + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border-primary);
+    background: var(--bg-secondary);
+    visibility: hidden;
+    transform: translateY(100%);
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      visibility 0s linear var(--duration-base);
+
+    @include u.from(md) {
+      display: none;
+    }
+  }
+
+  .sticky-cta--visible {
+    visibility: visible;
+    transform: none;
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      visibility 0s;
+  }
+
+  /* ===== legal (footer disclosure) ===== */
+  .legal {
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+  }
+
+  .legal__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: u.space(4);
+    min-block-size: var(--target-min);
+    padding-inline: u.space(4);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      background: var(--card-bg-primary-hover);
+    }
+
+    &:active {
+      background: var(--bg-secondary);
+    }
+  }
+
+  .legal__icon {
+    width: u.space(5);
+    height: u.space(5);
+    flex: none;
+    color: var(--icon-secondary);
+    transition: transform var(--duration-base) var(--ease-standard);
+
+    .legal[open] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Always open here (no summary): the disclosure is plain visible text, so pad all sides.
+  .legal__body {
+    margin: 0;
+    max-width: none;
+    padding: u.space(4);
+  }
+}
+
+// ===== signup (/signup island) =====
+// Loading uses aria-disabled (keeps focus); its text stays btn-text for contrast.
+@layer components {
+  .signup__home {
+    @include u.tap-target;
+    display: inline-flex;
+    border-radius: var(--radius-sm);
+  }
+
+  .signup__logo {
+    display: block;
+    width: auto;
+    height: u.space(5);
+  }
+
+  .signup__title {
+    font-size: var(--text-h2);
+    line-height: var(--leading-snug);
+  }
+
+  .signup__lead {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-body-lg);
+  }
+
+  .signup__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: u.space(2);
+    margin: 0;
+    color: var(--text-success);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+  }
+
+  .signup__panel {
+    display: flex;
+    flex-direction: column;
+    gap: u.space(6);
+    padding: u.space(6);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+
+  .signup__divider {
+    display: flex;
+    align-items: center;
+    gap: u.space(3);
+    max-width: none;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid var(--border-secondary);
+    }
+  }
+
+  .signup__label,
+  .signup__legend {
+    color: var(--text-primary);
+    font-weight: var(--weight-bold);
+  }
+
+  .signup__input {
+    width: 100%;
+    min-block-size: var(--target-min);
+    padding-block: u.space(3);
+    padding-inline: u.space(4);
+    border: 1px solid var(--btn-border-outline);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--text-body); // >= 16px: no iOS zoom on focus
+    transition: border-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      border-color: var(--text-secondary);
+    }
+
+    &:focus-visible {
+      border-color: var(--border-brand);
+    }
+
+    &[aria-invalid='true'] {
+      border-color: var(--icon-error);
+    }
+
+    &[readonly] {
+      color: var(--text-secondary);
+      cursor: progress;
+    }
+
+    &:disabled {
+      border-color: var(--border-secondary);
+      color: var(--text-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  .signup__hint {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .signup__field-error {
+    display: flex;
+    align-items: flex-start;
+    gap: u.space(2);
+    margin: 0;
+    color: var(--text-error);
+    font-size: var(--text-sm);
+  }
+
+  .signup__badge-icon,
+  .signup__field-error-icon,
+  .signup__alert-icon,
+  .signup__notice-icon,
+  .signup__button-icon,
+  .signup__spinner {
+    width: u.space(5);
+    height: u.space(5);
+    flex: none;
+  }
+
+  .signup__badge-icon {
+    color: var(--icon-success);
+  }
+
+  .signup__field-error-icon {
+    color: var(--icon-error);
+  }
+
+  .signup__alert {
+    display: flex;
+    align-items: flex-start;
+    gap: u.space(3);
+    padding: u.space(4);
+    border-radius: var(--radius-md);
+    background: var(--banner-bg-error);
+    color: var(--banner-color-paragraph);
+  }
+
+  .signup__alert-text {
+    margin: 0;
+  }
+
+  .signup__alert-icon {
+    color: var(--banner-color-icon);
+  }
+
+  .signup__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: u.space(2);
+    margin: 0;
+    padding: u.space(3);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-md);
+    background: var(--banner-bg-info);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .signup__notice-icon {
+    color: var(--icon-secondary);
+  }
+
+  .signup__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: u.space(2);
+    width: 100%;
+    min-block-size: var(--target-min);
+    padding-block: u.space(3);
+    padding-inline: u.space(6);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: var(--btn-bg-primary-active);
+    color: var(--btn-text);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background: var(--btn-bg-primary-hover);
+    }
+
+    &:active {
+      background: var(--btn-bg-primary-pressed);
+      transform: translateY(1px);
+    }
+
+    // Loading
+    &[aria-disabled='true'] {
+      border-color: var(--btn-border-outline);
+      background: var(--btn-bg-primary-disabled);
+      cursor: progress;
+      transform: none;
+    }
+
+    &:disabled {
+      border-color: var(--btn-border-outline);
+      background: var(--btn-bg-primary-disabled);
+      color: var(--btn-text-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  .signup__button--secondary {
+    border-color: var(--btn-border-outline);
+    background: var(--btn-bg-outline-active);
+
+    &:hover {
+      background: var(--btn-bg-outline-hover);
+    }
+
+    &:active {
+      background: var(--btn-bg-outline-pressed);
+    }
+
+    &[aria-disabled='true'],
+    &:disabled {
+      background: var(--btn-bg-outline-disabled);
+      color: var(--text-disabled);
+    }
+  }
+
+  .signup__spinner {
+    animation: signup-spin 1s linear infinite;
+  }
+
+  @keyframes signup-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  // Honeypot: present for bots, invisible and unreachable for people
+  .signup__hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .signup__fineprint {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+  }
+
+  .signup__fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: u.space(3);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .signup__legend {
+    margin-bottom: u.space(3);
+    padding: 0;
+  }
+
+  .signup__optional {
+    color: var(--text-secondary);
+    font-weight: var(--weight-regular);
+  }
+
+  .signup__options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: u.space(3);
+  }
+
+  .signup__option {
+    display: flex;
+    align-items: center;
+    gap: u.space(3);
+    min-block-size: var(--target-min);
+    padding-block: u.space(3);
+    padding-inline: u.space(4);
+    border: 1px solid var(--btn-border-outline);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background: var(--card-bg-primary-hover);
+    }
+
+    &:active {
+      background: var(--btn-bg-outline-pressed);
+    }
+
+    // The native radio dot carries the checked state; the border reinforces it
+    &:has(:checked) {
+      border-color: var(--border-brand);
+      background: var(--bg-tertiary);
+    }
+
+    &:has(:focus-visible) {
+      outline: var(--focus-ring-width) solid var(--focus-ring);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    &:has(:disabled) {
+      color: var(--text-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  .signup__radio {
+    width: u.space(5);
+    height: u.space(5);
+    margin: 0;
+    flex: none;
+    accent-color: var(--btn-bg-primary-active);
+
+    // The option label draws the ring
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .signup__actions {
+    display: flex;
+    flex-direction: column;
+    gap: u.space(3);
+
+    @include u.from(sm) {
+      flex-direction: row;
+    }
+  }
+}
+
+// ===== proof-counter (funnel_proof_v1, counter variant only) =====
+// A quiet pill, tinted just enough to be noticed without shouting. The figure is brand-coloured
+// and bold; when it ticks, the new number rolls up into place. No pulsing or "live" cue: that
+// would read as urgency (CLAUDE.md §5). tabular-nums keeps the width steady, so no layout shift.
+@layer components {
+  .proof-counter {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: u.space(2);
+    max-width: none;
+    margin: 0;
+    padding-block: u.space(2);
+    padding-inline: u.space(3);
+    border: 1px solid var(--border-tertiary);
+    border-radius: var(--radius-full);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .proof-counter__icon {
+    width: u.space(4);
+    height: u.space(4);
+    flex: none;
+    color: var(--text-brand);
+  }
+
+  // The window the number rolls through: overflow clips the incoming digits.
+  .proof-counter__num {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    color: var(--text-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .proof-counter__digit {
+    display: inline-block;
+    animation: proof-counter-roll var(--duration-base) var(--ease-out);
+  }
+
+  @keyframes proof-counter-roll {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proof-counter__digit {
+      animation: none;
+    }
+  }
+}

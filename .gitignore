@@ -1,0 +1,30 @@
+# --- local-only inputs ---
+instructions/
+
+# --- build output ---
+dist/
+.output/
+.vercel/
+.astro/
+
+# --- deps ---
+node_modules/
+.pnpm-store/
+
+# --- env ---
+.env
+.env.*
+!.env.example
+
+# --- tooling / os ---
+coverage/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+skills-lock.json
+.claude/settings.local.json

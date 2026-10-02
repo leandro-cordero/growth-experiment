@@ -1,0 +1,38 @@
+---
+import CtaLink from "./CtaLink.astro";
+---
+
+{/* No proof inside: the counter stays under the hero CTA only, so control and counter differ by that one line. */}
+<aside class="sticky-cta" aria-label="Create a free account" inert data-sticky-cta>
+  <CtaLink position="sticky" id="sticky_primary" block />
+</aside>
+
+<script>
+  // Show once the hero CTA has scrolled away; hide while the final CTA is on screen.
+  const bar = document.querySelector<HTMLElement>("[data-sticky-cta]");
+  const hero = document.querySelector('[data-cta-id="hero_primary"]');
+  const final = document.querySelector("[data-final-cta]");
+
+  if (bar && hero && final && "IntersectionObserver" in window) {
+    let heroPassed = false;
+    let finalVisible = false;
+
+    const update = () => {
+      const show = heroPassed && !finalVisible;
+      bar.classList.toggle("sticky-cta--visible", show);
+      bar.inert = !show;
+    };
+
+    new IntersectionObserver(([entry]) => {
+      if (!entry) return;
+      heroPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      update();
+    }).observe(hero);
+
+    new IntersectionObserver(([entry]) => {
+      if (!entry) return;
+      finalVisible = entry.isIntersecting;
+      update();
+    }).observe(final);
+  }
+</script>
