@@ -1,5 +1,10 @@
 # Try TradingFX Free
 
+[![Unit tests](https://github.com/leandro-cordero/growth-experiment/actions/workflows/unit-tests.yml/badge.svg?branch=master)](https://github.com/leandro-cordero/growth-experiment/actions/workflows/unit-tests.yml)
+[![Typecheck](https://github.com/leandro-cordero/growth-experiment/actions/workflows/typecheck.yml/badge.svg?branch=master)](https://github.com/leandro-cordero/growth-experiment/actions/workflows/typecheck.yml)
+[![Build](https://github.com/leandro-cordero/growth-experiment/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/leandro-cordero/growth-experiment/actions/workflows/build.yml)
+[![JS budget](https://github.com/leandro-cordero/growth-experiment/actions/workflows/js-budget.yml/badge.svg?branch=master)](https://github.com/leandro-cordero/growth-experiment/actions/workflows/js-budget.yml)
+
 A marketing landing page, a signup flow and a Users API for TradingFX, a trading-replay and
 backtesting product. The goal is to raise the conversion rate from marketing traffic to account
 creation, so every part of it is instrumented and experiment-ready: PostHog events, an A/B
