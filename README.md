@@ -49,8 +49,7 @@ restart), analytics is a no-op, and `GET /api/users` is open. Each key is explai
 | `pnpm preview` | Serve the build |
 
 Before opening a PR: `pnpm test && pnpm build`. CI runs one workflow per check
-(`.github/workflows/`): unit tests, typecheck, build, landing JS budget (≤ 20KB gz) and
-`pnpm audit`.
+(`.github/workflows/`): unit tests, typecheck, build and landing JS budget (≤ 20KB gz).
 
 ## Try it
 
